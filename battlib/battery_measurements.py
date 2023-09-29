@@ -74,7 +74,6 @@ def calculate_OCV (soc):
     else:
         return 0.0
     
-    #checking if soc val less than or equal to lowesr SOC val in BSSR_SOC
     
     
                 
