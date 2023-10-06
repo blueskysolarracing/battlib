@@ -1,9 +1,7 @@
 import math
 import numpy as np
 
-# BSSR_OCV, BSSR_SOC
-
-def calculate_SOC(ocv):
+def SOC(ocv):
     """
     Calculate the state of charge (soc) of battery based on open circuit voltage (ocv) using linear interpolation.
     
@@ -51,7 +49,7 @@ def calculate_SOC(ocv):
     else:
         return 0
     
-def calculate_OCV (soc):
+def OCV(soc):
     
     # initializing change in voltage and ocv
     dv, ocv = 0.0
@@ -73,7 +71,6 @@ def calculate_OCV (soc):
         return ocv
     else:
         return 0.0
-    
     
     
                 
