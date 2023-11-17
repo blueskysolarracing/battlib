@@ -7,8 +7,8 @@ with open('README.rst', 'r') as file:
 
 setup(
     name='battlib',
-    version='0.0.0',
-    description='A library for battery SOC calculation using EKF',
+    version='0.0.0.dev0',
+    description='A library for battery SOC calculation',
     long_description=long_description,
     long_description_content_type='text/x-rst',
     url='https://github.com/blueskysolarracing/battlib',
@@ -37,7 +37,8 @@ setup(
         'Source': 'https://github.com/blueskysolarracing/battlib',
         'Tracker': 'https://github.com/blueskysolarracing/battlib/issues',
     },
-    package_data={'battlib': ['py.typed']},
     packages=find_packages(),
+    install_requires=['filterpy>=1.4.5<2', 'numpy>=1.26.2<2'],
     python_requires='>=3.11',
+    package_data={'battlib': ['py.typed']},
 )

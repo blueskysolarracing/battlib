@@ -1,6 +1,11 @@
 build~=0.10.0
 coverage~=7.2.7
+filterpy~=1.4.5
 flake8~=6.0.0
+matplotlib~=3.8.1
 mypy~=1.4.1
+numpy~=1.26.2
+pandas~=2.1.3
 Sphinx~=7.0.1
+tqdm~=4.66.1
 twine~=4.0.2
