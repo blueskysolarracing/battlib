@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 import numpy as np
 
+from battlib.utilities import intexterp
+
 
 @dataclass
 class Battery:
@@ -38,5 +40,5 @@ class Battery:
     def interp_soc(self, ocv):
         return np.interp(ocv, self.ocv, self.soc)
 
-    def interp_ocv(self, soc):
-        return np.interp(soc, self.soc, self.ocv)
+    def intexterp_ocv(self, soc):
+        return intexterp(soc, self.soc, self.ocv)

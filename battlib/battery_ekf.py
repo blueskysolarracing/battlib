@@ -49,7 +49,7 @@ class BatteryEKF(ExtendedKalmanFilter):
             measured_v,
             lambda *_: self.HJacobian,
             lambda x, *_: (
-                self.battery.interp_ocv(x[0]) + self.HJacobian @ x + self.D @ u
+                self.battery.intexterp_ocv(x[0]) + self.HJacobian @ x + self.D @ u
             ),
             u=u,
         )
