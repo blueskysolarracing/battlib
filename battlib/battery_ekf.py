@@ -26,22 +26,21 @@ class BatteryEKF(ExtendedKalmanFilter):
         return self.x[0]
 
     def step(self, dt, i_in, measured_v):
+        q_cap = self.battery.q_cap
+        r_ct = self.battery.r_ct
+        c_ct = self.battery.c_ct
+        r_d = self.battery.r_d
+        c_d = self.battery.c_d
+        coulomb_eta = self.battery.coulomb_eta
         self.B = np.array(
             [
-                [-self.battery.coulomb_eta * dt / self.battery.q_cap, 0],
-                [
-                    1.0 - np.exp(-dt / (self.battery.r_ct * self.battery.c_ct)),
-                    0,
-                ],
-                [1.0 - np.exp(-dt / (self.battery.r_d * self.battery.c_d)), 0],
+                [-coulomb_eta * dt / q_cap, 0],
+                [1.0 - np.exp(-dt / (r_ct * c_ct)), 0],
+                [1.0 - np.exp(-dt / (r_d * c_d)), 0],
             ]
         )
         self.F = np.diag(
-            [
-                1.0,
-                np.exp(-dt / (self.battery.r_ct * self.battery.c_ct)),
-                np.exp(-dt / (self.battery.r_d * self.battery.c_d)),
-            ],
+            [1.0, np.exp(-dt / (r_ct * c_ct)), np.exp(-dt / (r_d * c_d))],
         )
         u = np.array([i_in, np.sign(i_in)]).T
 
@@ -49,7 +48,9 @@ class BatteryEKF(ExtendedKalmanFilter):
             measured_v,
             lambda *_: self.HJacobian,
             lambda x, *_: (
-                self.battery.intexterp_ocv(x[0]) + self.HJacobian @ x + self.D @ u
+                self.battery.intexterp_ocv(x[0])
+                + self.HJacobian @ x
+                + self.D @ u
             ),
             u=u,
         )
