@@ -9,12 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-FILE_PATH = Path(__file__)
-TEST_PATH = FILE_PATH.parent
-DATA_PATH = TEST_PATH / 'data'
-PROJECT_PATH = TEST_PATH.parent
-
-path.append(str(PROJECT_PATH))
+path.append(str(Path(__file__).parent.parent.parent))
 
 from battlib import Battery, BatteryEKF
 
@@ -85,7 +80,6 @@ def main():
     plt.title('Voltage versus SOC')
     plt.xlabel('SOC')
     plt.ylabel('Voltage (V)')
-    
     plt.legend()
     plt.grid(True)
     plt.savefig(args.fig_file, dpi=300)
