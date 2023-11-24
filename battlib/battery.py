@@ -6,12 +6,15 @@ from battlib.utilities import intexterp
 
 @dataclass
 class Battery:
-    """The class for battery modelling."""
+    """The class for battery modelling. This class is designed as a data class to simplify data storage/retrieval"""
 
     ocv: np.ndarray
     """Open circuit voltages, from the lowest to the highest."""
     soc: np.ndarray
     """State of charges, from zero to a hundred percent."""
+    
+    
+    """Physical Properties:"""
     q_cap: float
     """The charge capacity, in Ampere-seconds."""
     r_int: float
@@ -24,6 +27,8 @@ class Battery:
     """The diffusion resistance, in Ohms."""
     c_d: float
     """The diffusion capacitance, in Farads."""
+    
+    """Variance parameters:"""
     var_z: float
     """The state estimate variance, unitless."""
     var_i_ct: float
@@ -39,6 +44,8 @@ class Battery:
 
     def interp_soc(self, ocv):
         return np.interp(ocv, self.ocv, self.soc)
+    """Interpolates the state of charge (SOC) based on the provided open circuit voltage (OCV)"""
 
     def intexterp_ocv(self, soc):
         return intexterp(soc, self.soc, self.ocv)
+    """Interpolates the open circuit voltage (OCV) based on the provided state of charge (SOC)"""
