@@ -1,3 +1,7 @@
+""":mod:`battlib.battery` contains tools to define the battery
+characteristics.
+"""
+
 from dataclasses import dataclass
 import numpy as np
 
@@ -6,7 +10,11 @@ from battlib.utilities import intexterp
 
 @dataclass
 class Battery:
-    """The class for battery modelling. This class is designed as a data class to simplify data storage/retrieval"""
+    """The class for the model of the battery. This class is designed as
+    a ``dataclass`` to contain all the battery parameters.
+    """
+
+    # open circuit voltage curve
 
     ocv: np.ndarray
     """Open circuit voltages, from the lowest to the highest."""
@@ -14,7 +22,8 @@ class Battery:
     """State of charges, from zero to a hundred percent."""
     
     
-    """Physical Properties:"""
+    # physical properties
+
     q_cap: float
     """The charge capacity, in Ampere-seconds."""
     r_int: float
@@ -28,7 +37,8 @@ class Battery:
     c_d: float
     """The diffusion capacitance, in Farads."""
     
-    """Variance parameters:"""
+    # variances
+
     var_z: float
     """The state estimate variance, unitless."""
     var_i_ct: float
@@ -39,13 +49,24 @@ class Battery:
     """The sensor uncertainty, unitless."""
     var_in: float
     """The input uncertainty, unitless."""
+
     coulomb_eta: float
     """The coulombic efficiency of the battery."""
 
     def interp_soc(self, ocv):
+        """Interpolate the state of charge (SOC) based on the provided
+        open circuit voltage (OCV).
+
+        :param ocv: The ocv.
+        :return: The soc.
+        """
         return np.interp(ocv, self.ocv, self.soc)
-    """Interpolates the state of charge (SOC) based on the provided open circuit voltage (OCV)"""
 
     def intexterp_ocv(self, soc):
+        """Interpolate the open circuit voltage (OCV) based on the
+        provided state of charge (SOC).
+
+        :param soc: The SOC.
+        :return: The OCV.
+        """
         return intexterp(soc, self.soc, self.ocv)
-    """Interpolates the open circuit voltage (OCV) based on the provided state of charge (SOC)"""

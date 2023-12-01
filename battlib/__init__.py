@@ -1,7 +1,6 @@
-""" battlib is the top-level package for the battlib library
+""":mod:`battlib` is the top-level package for the battlib library.
 
-All battlib tools are imported here
-
+All battlib tools are imported here.
 """
 
 __all__ = 'Battery', 'BatteryEKF', 'intexterp'

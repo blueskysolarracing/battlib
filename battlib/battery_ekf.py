@@ -1,9 +1,18 @@
+""":mod:`battlib.battery` implements the battery extended Kalman filter
+(EKF) algorithm.
+"""
+
 from filterpy.kalman import ExtendedKalmanFilter
 import numpy as np
 
 
 class BatteryEKF(ExtendedKalmanFilter):
-    """The 'BatteryEKF' class implements an Extended Kalman Filter (EKF) algorithm for battery state estimation."""
+    """The class for the battery extended Kalman filter (EKF) algorithm
+    for battery state of charge estimation.
+
+    :param battery: The battery model.
+    :param initial_voltage: The initial voltage of the battery.
+    """
 
     DIM_X = 3
     """The number of state variables."""
@@ -14,6 +23,7 @@ class BatteryEKF(ExtendedKalmanFilter):
         super().__init__(self.DIM_X, self.DIM_Z)
 
         self.battery = battery
+        """The battery model."""
         self.x = np.array([battery.interp_soc(initial_voltage), 0, 0])
         """State vector representing battery state (including SOC)."""
         self.P = np.diag([battery.var_z, battery.var_i_ct, battery.var_i_d])
@@ -25,33 +35,34 @@ class BatteryEKF(ExtendedKalmanFilter):
         self.HJacobian = np.atleast_2d([0, -battery.r_ct, -battery.r_d])
         """Jacobian matrix used in the prediction step."""
         self.D = np.atleast_2d([-battery.r_int, 0])
-        """Matrix used in prediction step of algorithm to incorporate external influences or inputs into the state prediction (battery's internal resistance)."""
-    """ 
-    Initializes the batteryEKF instance.
-    Parameters:
-        battery: An object representing the battery model.
-        initial_voltage: Initial voltage of the battery.
-    """
-    
+        """Matrix used in prediction step of algorithm to incorporate
+        external influences or inputs into the state prediction
+        (battery's internal resistance).
+        """
+
     @property
     def soc(self):
+        """Return the state of charge (SOC) of the battery.
+
+        :return: The battery soc.
+        """
         return self.x[0]
-    """ Returns the state of charge (SOC) of the battery."""
 
     def step(self, dt, i_in, measured_v):
+        """Perform a single step prediction and update using the battery
+        extended Kalman filter (EKF) algorithm.
+
+        :param dt: Time step (in seconds).
+        :param i_in: Input current (in amperes).
+        :param measured_v: Measured voltage (in volts).
+        :return: ``None``.
+        """
         q_cap = self.battery.q_cap
-        """Battery capacity."""
         r_ct = self.battery.r_ct
-        """Charge transfer resistance."""
         c_ct = self.battery.c_ct
-        """Charge transfer capacitance."""
         r_d = self.battery.r_d
-        """Diffusion resistance."""
         c_d = self.battery.c_d
-        """Diffusion capacitance."""
         coulomb_eta = self.battery.coulomb_eta
-        """Coulombic efficiency."""
-        
         self.B = np.array(
             [
                 [-coulomb_eta * dt / q_cap, 0],
@@ -59,13 +70,9 @@ class BatteryEKF(ExtendedKalmanFilter):
                 [1.0 - np.exp(-dt / (r_d * c_d)), 0],
             ]
         )
-        """Input matrix for the prediction step."""
-        
         self.F = np.diag(
             [1.0, np.exp(-dt / (r_ct * c_ct)), np.exp(-dt / (r_d * c_d))],
         )
-        """State transition matrix for prediction step."""
-        
         u = np.array([i_in, np.sign(i_in)]).T
 
         self.predict_update(
@@ -78,10 +85,3 @@ class BatteryEKF(ExtendedKalmanFilter):
             ),
             u=u,
         )
-    """ 
-    Performs a single step prediction and update using the Extended Kalman Filter.
-    Parameters:
-        dt: Time step.
-        i_in: Input current.
-        measured_v: Measured voltage.
-    """
