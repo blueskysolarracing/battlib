@@ -10,6 +10,8 @@ Welcome to battlib's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+battlib_overview
+
 
 
 Indices and tables
