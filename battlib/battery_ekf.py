@@ -75,6 +75,9 @@ class BatteryEKF(ExtendedKalmanFilter):
         )
         u = np.array([i_in, np.sign(i_in)]).T
 
+        #updating SOC via coulomb counting
+        self.x[0] += (i_in/q_cap)*dt
+        
         self.predict_update(
             measured_v,
             lambda *_: self.HJacobian,
