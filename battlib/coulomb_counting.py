@@ -14,9 +14,9 @@ class BatteryCC:
         """Perform a single step prediction and update using the battery
         coulomb counting algorithm
 
+        :param i_in: Input Current (in amperes).
         :param dt: Time step (in seconds).
-        :param i_in: Input current (in amperes).
-        :return: None
+        :return: ``None``.
         """
         dq = i_in * dt
         self.soc += dq/self.battery.q_cap
