@@ -8,7 +8,7 @@ class BatteryCC:
 
     def __init__(self, battery):
         self.battery = battery
-        self.soc = 0.0
+        self.SOC = 0.0
 
     def step(self, i_in, dt):
         """Perform a single step prediction and update using the battery
@@ -19,18 +19,18 @@ class BatteryCC:
         :return: ``None``.
         """
         dq = i_in * dt
-        self.soc += dq/self.battery.q_cap
+        self.SOC += dq/self.battery.q_cap
 
         # ensuring that soc stays within possible range
-        if self.soc < 0:
-            self.soc = 0
-        elif self.soc > 1:
-            self.soc = 1
+        if self.SOC < 0:
+            self.SOC = 0
+        elif self.SOC > 1:
+            self.SOC = 1
 
     @property
-    def get_soc(self):
+    def soc(self):
         """Return the state of charge (SOC) of the battery.
 
         :return: The battery soc.
         """
-        return self.soc
+        return self.SOC
