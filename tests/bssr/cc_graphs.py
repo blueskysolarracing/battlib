@@ -55,7 +55,7 @@ def main():
     soc_df = pd.read_csv(args.soc_file)
     cell_count = args.cell_count
     initial_voltage = iv_df['Output Voltage'][0]
-    battery_cc = BatteryCC
+    battery_cc = BatteryCC(battery, battery.interp_soc(initial_voltage))
     predicted_x = []
     predicted_y = []
     actual_x = []

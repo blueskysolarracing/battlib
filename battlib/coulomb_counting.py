@@ -6,11 +6,11 @@ class BatteryCC:
     """The class for the battery coulomb counting algorithm for
     battery state of charge estimation."""
 
-    def __init__(self, battery):
+    def __init__(self, battery, initial_soc):
         self.battery = battery
-        self.SOC = 0.0
+        self.SOC = initial_soc
 
-    def step(self, i_in, dt):
+    def step(self, i_in, dt, measured_v=None):
         """Perform a single step prediction and update using the battery
         coulomb counting algorithm
 
@@ -18,7 +18,7 @@ class BatteryCC:
         :param dt: Time step (in seconds).
         :return: ``None``.
         """
-        dq = i_in * dt
+        dq = -i_in * dt
         self.SOC += dq/self.battery.q_cap
 
         # ensuring that soc stays within possible range
