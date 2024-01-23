@@ -20,8 +20,7 @@ class Battery:
     """Open circuit voltages, from the lowest to the highest."""
     soc: np.ndarray
     """State of charges, from zero to a hundred percent."""
-    
-    
+
     # physical properties
 
     q_cap: float
@@ -36,7 +35,7 @@ class Battery:
     """The diffusion resistance, in Ohms."""
     c_d: float
     """The diffusion capacitance, in Farads."""
-    
+
     # variances
 
     var_z: float
