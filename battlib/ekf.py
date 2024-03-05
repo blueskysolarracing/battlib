@@ -6,7 +6,7 @@ from filterpy.kalman import ExtendedKalmanFilter
 import numpy as np
 
 
-class BatteryEKF(ExtendedKalmanFilter):
+class EKFSOCEstimator(ExtendedKalmanFilter):
     """The class for the battery extended Kalman filter (EKF) algorithm
     for battery state of charge estimation.
 

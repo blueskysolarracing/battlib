@@ -11,7 +11,7 @@ import pandas as pd
 
 path.append(str(Path(__file__).parent.parent.parent))
 
-from battlib import Battery, CCSOCEstimator
+from battlib import Battery, OCVSOCEstimator
 
 MAX_CELL_COUNT = 14
 
@@ -55,7 +55,7 @@ def main():
     soc_df = pd.read_csv(args.soc_file)
     cell_count = args.cell_count
     initial_voltage = iv_df['Output Voltage'][0]
-    estimator = CCSOCEstimator(battery, initial_voltage)
+    estimator = OCVSOCEstimator(battery, initial_voltage)
     predicted_x = []
     predicted_y = []
     actual_x = []
@@ -66,7 +66,7 @@ def main():
         i_in = row['Input Current'] / cell_count * MAX_CELL_COUNT
         measured_v = row['Output Voltage']
 
-        estimator.step(dt, i_in)
+        estimator.step(measured_v)
         predicted_x.append(estimator.soc)
         predicted_y.append(measured_v)
 

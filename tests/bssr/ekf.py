@@ -11,7 +11,7 @@ import pandas as pd
 
 path.append(str(Path(__file__).parent.parent.parent))
 
-from battlib import Battery, BatteryEKF
+from battlib import Battery, EKFSOCEstimator
 
 MAX_CELL_COUNT = 14
 
@@ -55,7 +55,7 @@ def main():
     soc_df = pd.read_csv(args.soc_file)
     cell_count = args.cell_count
     initial_voltage = iv_df['Output Voltage'][0]
-    battery_ekf = BatteryEKF(battery, initial_voltage)
+    estimator = EKFSOCEstimator(battery, initial_voltage)
     predicted_x = []
     predicted_y = []
     actual_x = []
@@ -66,8 +66,8 @@ def main():
         i_in = row['Input Current'] / cell_count * MAX_CELL_COUNT
         measured_v = row['Output Voltage']
 
-        battery_ekf.step(dt, i_in, measured_v)
-        predicted_x.append(battery_ekf.soc)
+        estimator.step(dt, i_in, measured_v)
+        predicted_x.append(estimator.soc)
         predicted_y.append(measured_v)
 
     for _, row in tqdm(soc_df.iterrows(), total=len(soc_df)):
