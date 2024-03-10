@@ -38,7 +38,7 @@ setup(
         'Tracker': 'https://github.com/blueskysolarracing/battlib/issues',
     },
     packages=find_packages(),
-    install_requires=['filterpy>=1.4.5<2', 'numpy>=1.26.2<2'],
+    install_requires=['filterpy>=1.4.5,<2', 'numpy>=1.26.2,<2'],
     python_requires='>=3.11',
     package_data={'battlib': ['py.typed']},
 )
