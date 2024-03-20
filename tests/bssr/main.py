@@ -11,7 +11,8 @@ import pandas as pd
 
 path.append(str(Path(__file__).parent.parent.parent))
 
-from battlib import Battery, OCVSOCEstimator
+from battlib import Battery
+import battlib
 
 MAX_CELL_COUNT = 14
 
@@ -19,6 +20,11 @@ MAX_CELL_COUNT = 14
 def parse_args():
     parser = ArgumentParser()
 
+    parser.add_argument(
+        'soc_estimator',
+        type=str,
+        help='soc estimator',
+    )
     parser.add_argument(
         'battery_file',
         type=open,
@@ -55,7 +61,7 @@ def main():
     soc_df = pd.read_csv(args.soc_file)
     cell_count = args.cell_count
     initial_voltage = iv_df['Output Voltage'][0]
-    estimator = OCVSOCEstimator(battery, initial_voltage)
+    estimator = getattr(battlib, args.soc_estimator)(battery, initial_voltage)
     predicted_x = []
     predicted_y = []
     actual_x = []
@@ -66,7 +72,7 @@ def main():
         i_in = row['Input Current'] / cell_count * MAX_CELL_COUNT
         measured_v = row['Output Voltage']
 
-        estimator.step(measured_v)
+        estimator.step(dt=dt, i_in=i_in, measured_v=measured_v)
         predicted_x.append(estimator.soc)
         predicted_y.append(measured_v)
 

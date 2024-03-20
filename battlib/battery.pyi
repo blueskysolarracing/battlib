@@ -1,3 +1,5 @@
+from abc import ABC
+
 import numpy as np
 import numpy.typing as npt
 
@@ -20,3 +22,11 @@ class Battery:
 
     def interp_soc(self, ocv: float) -> float: ...  
     def intexterp_ocv(self, soc: float) -> float: ...
+
+
+class SOCEstimator(ABC):
+    battery: Battery
+
+    @property
+    def soc(self) -> float: ...
+    def step(self, *, dt: float, i_in: float, measured_v: float) -> None: ...

@@ -5,8 +5,10 @@
 from filterpy.kalman import ExtendedKalmanFilter
 import numpy as np
 
+from battlib.battery import SOCEstimator
 
-class EKFSOCEstimator(ExtendedKalmanFilter):
+
+class EKFSOCEstimator(ExtendedKalmanFilter, SOCEstimator):
     """The class for the battery extended Kalman filter (EKF) algorithm
     for battery state of charge estimation.
 
@@ -48,15 +50,7 @@ class EKFSOCEstimator(ExtendedKalmanFilter):
         """
         return self.x[0]
 
-    def step(self, dt, i_in, measured_v):
-        """Perform a single step prediction and update using the battery
-        extended Kalman filter (EKF) algorithm.
-
-        :param dt: Time step (in seconds).
-        :param i_in: Input current (in amperes).
-        :param measured_v: Measured voltage (in volts).
-        :return: ``None``.
-        """
+    def step(self, *, dt, i_in, measured_v):
         q_cap = self.battery.q_cap
         r_ct = self.battery.r_ct
         c_ct = self.battery.c_ct

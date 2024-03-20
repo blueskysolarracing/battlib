@@ -4,9 +4,11 @@ characteristics.
 
 from dataclasses import dataclass
 
+from battlib.battery import SOCEstimator
+
 
 @dataclass
-class OCVSOCEstimator:
+class OCVSOCEstimator(SOCEstimator):
     """The class for the battery coulomb counting algorithm for
     battery state of charge estimation.
 
@@ -18,11 +20,5 @@ class OCVSOCEstimator:
         self.battery = battery
         self.soc = battery.interp_soc(initial_voltage)
 
-    def step(self, measured_v):
-        """Perform a single step prediction and update using the battery
-        extended Kalman filter (EKF) algorithm.
-
-        :param measured_v: Measured voltage (in volts).
-        :return: ``None``.
-        """
+    def step(self, *, dt=None, i_in=None, measured_v):
         self.soc = self.battery.interp_soc(measured_v)

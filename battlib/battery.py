@@ -2,6 +2,7 @@
 characteristics.
 """
 
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 import numpy as np
 
@@ -69,3 +70,23 @@ class Battery:
         :return: The OCV.
         """
         return intexterp(soc, self.soc, self.ocv)
+
+
+class SOCEstimator(ABC):
+    """The class for the battery state-of-charge (SOC) estimator."""
+
+    battery: Battery
+    """The battery being estimated."""
+    soc: float
+    """The battery state-of-charge (SOC)."""
+
+    @abstractmethod
+    def step(self, *, dt, i_in, measured_v):
+        """Perform a single step prediction and update.
+
+        :param dt: Time step (in seconds).
+        :param i_in: Input current (in amperes).
+        :param measured_v: Measured voltage (in volts).
+        :return: ``None``.
+        """
+        pass
