@@ -7,7 +7,7 @@ with open('README.rst', 'r') as file:
 
 setup(
     name='battlib',
-    version='0.0.0.dev0',
+    version='0.0.0.dev1',
     description='A library for battery SOC calculation',
     long_description=long_description,
     long_description_content_type='text/x-rst',
