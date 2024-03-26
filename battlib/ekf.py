@@ -41,6 +41,7 @@ class EKFSOCEstimator(ExtendedKalmanFilter, SOCEstimator):
         external influences or inputs into the state prediction
         (battery's internal resistance).
         """
+        self.soc_errors = []
 
     @property
     def soc(self):
@@ -50,7 +51,7 @@ class EKFSOCEstimator(ExtendedKalmanFilter, SOCEstimator):
         """
         return self.x[0]
 
-    def step(self, *, dt, i_in, measured_v):
+    def step(self, *, dt, i_in, measured_v, actual_soc=None):
         q_cap = self.battery.q_cap
         r_ct = self.battery.r_ct
         c_ct = self.battery.c_ct
@@ -79,3 +80,12 @@ class EKFSOCEstimator(ExtendedKalmanFilter, SOCEstimator):
             ),
             u=u,
         )
+
+        if actual_soc:
+            soc_error = actual_soc - self.soc
+            self.soc_errors.append(soc_error)
+
+    def rms_calculation(self):
+        soc_errors_squared = np.square(self.soc_errors)
+        rms = np.sqrt(np.mean(soc_errors_squared))
+        return rms
