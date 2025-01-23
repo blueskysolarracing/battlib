@@ -29,8 +29,8 @@ When making changes, please follow these guidelines:
   if necessary.
 - After making changes, please validate your changes.
 
-1. Run style checking: ``flake8 battlib``
-2. Run static type checking with ``--strict`` flag: ``mypy --strict battlib``
+1. Run style checking: ``flake8 battlib tests``
+2. Run static type checking with ``--strict`` flag: ``mypy --strict battlib tests``
 3. Run checks for missing docstrings: ``interrogate -f 100 -i -m -n -p -s -r '^\w+TestCase' battlib``
 4. Run unit tests: ``python -m unittest``
 5. Run doctests: ``python -m doctest battlib/*.py``
