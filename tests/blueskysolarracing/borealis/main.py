@@ -1,15 +1,10 @@
-from argparse import ArgumentParser
+from argparse import ArgumentParser, Namespace
 from json import load
-from math import isclose
 from pathlib import Path
-from sys import path
 
 from tqdm import tqdm
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
-
-path.append(str(Path(__file__).parent.parent.parent))
 
 from battlib import Battery
 import battlib
@@ -17,7 +12,7 @@ import battlib
 MAX_CELL_COUNT = 14
 
 
-def parse_args():
+def parse_args() -> Namespace:
     parser = ArgumentParser()
 
     parser.add_argument(
@@ -54,7 +49,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def main():
+def main() -> None:
     args = parse_args()
     battery = Battery(**load(args.battery_file))
     iv_df = pd.read_csv(args.iv_file)

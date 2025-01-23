@@ -7,7 +7,7 @@ with open('README.rst', 'r') as file:
 
 setup(
     name='battlib',
-    version='0.0.0.dev1',
+    version='0.0.0.dev2',
     description='A library for battery SOC calculation',
     long_description=long_description,
     long_description_content_type='text/x-rst',
@@ -38,7 +38,7 @@ setup(
         'Tracker': 'https://github.com/blueskysolarracing/battlib/issues',
     },
     packages=find_packages(),
-    install_requires=['filterpy>=1.4.5,<2', 'numpy>=1.26.2,<2'],
+    install_requires=['filterpy>=1.4.5,<2', 'numpy>=2.2.2,<3'],
     python_requires='>=3.11',
     package_data={'battlib': ['py.typed']},
 )
