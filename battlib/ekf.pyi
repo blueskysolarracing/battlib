@@ -1,4 +1,4 @@
-from filterpy.kalman import ExtendedKalmanFilter  # type: ignore[import]
+from filterpy.kalman import ExtendedKalmanFilter  # type: ignore[import-untyped]
 import numpy as np
 import numpy.typing as npt
 
