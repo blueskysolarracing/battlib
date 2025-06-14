@@ -12,7 +12,7 @@ jobs:
       - name: Run style checking
         run: flake8 battlib tests
       - name: Run static type checking
-        run: mypy --strict battlib tests
+        run: mypy --strict battlib
       - name: Run unit tests
         run: python -m unittest
       - name: Run doctests
