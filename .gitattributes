@@ -1,0 +1,4 @@
+tests/blueskysolarracing/aurora/data/2-cell-constant-charge.csv filter=lfs diff=lfs merge=lfs -text
+tests/blueskysolarracing/aurora/data/2-cell-constant-discharge.csv filter=lfs diff=lfs merge=lfs -text
+tests/blueskysolarracing/aurora/data/2-cell-hppc-charge.csv filter=lfs diff=lfs merge=lfs -text
+tests/blueskysolarracing/aurora/data/2-cell-hppc-discharge.csv filter=lfs diff=lfs merge=lfs -text
